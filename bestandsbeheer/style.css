@@ -1,0 +1,238 @@
+#popupcenter{
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	position:absolute;
+
+}
+#popupcenter2{
+	width:300px;
+	height:100px;
+    margin-top:auto;
+    margin-left:auto;
+    margin-right:auto;
+	margin-bottom:auto;
+}
+#popup {
+    margin-left:auto;
+    margin-right:auto;
+    width: 300px;
+    border: 2px solid #999999;
+    background-color: #FFFFFF;
+	position:static;
+
+}
+#popup .bar{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #FFFFFF;
+    background-color: #000033;
+    display: block;
+    width:auto;
+}
+#popup .bar a:link, {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
+    color: #FFFFFF;
+    background-color: #000033;
+}
+#popup .bar table{
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+    width: 100%;
+}
+#popup .PopupText{
+    background:#FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:13px;
+    text-align:center;
+    padding:2px;
+}
+#popup .PopupText a:link, #popup .PopupText a:visited , #popup .PopupText a:hover  {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    color:#3366CC;
+    text-decoration:none;
+}
+#popup .PopupText a:hover {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    color:#6600FF;
+    text-decoration:none;
+    }
+
+
+#respon {
+    margin-top: 20%;
+    margin-bottom:auto;
+    margin-left:35%;
+    margin-right:auto;
+    height: auto;
+    width: 300px;
+    border: 2px solid #FF0000;
+    position: absolute;
+    background-color: #FFFFFF;
+    visibility:hidden;
+}
+.FileList{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    width: 100%;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #CCCCCC;
+    }
+.FileList a:link , .FileList a:visited {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: none;
+    color:#666666;
+    }
+.FileList a:hover {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: underline;
+    color:#6600FF;
+	
+    }
+
+UploadForm{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    float:left;
+    height:11px;
+    color:#333333;
+    }
+.FileNavi {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: none;
+    color:#666666;
+    }
+.FileNavi a:link , .FileNavi a:visited {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: none;
+    color:#666666;
+
+    }
+.FileNavi.no_dot a {outline:0;}
+.FileNavi a:hover {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: underline;
+    color:#6600FF;
+}
+.viewfile_linenumbers {
+	padding : 2px;
+	color : #000000;
+	background-color : #F0F0F0;
+	border-right : 1px solid #C0C0C0;
+	white-space: nowrap;
+}
+.viewfile_file {
+	padding : 2px;
+	color : #000000;
+	background-color : #FFFFFF;
+	white-space: nowrap;
+}
+.viewfile_image {
+	padding : 10px;
+	color : #000000;
+	background-color : #FFFFFF;
+}
+.viewfile_main {
+	padding : 0px;
+	border-left : 1px solid #C0C0C0;
+	border-right : 1px solid #C0C0C0;
+	border-bottom : 1px solid #C0C0C0;
+}
+.viewfile_div {
+	min-width:697px;
+	max-width:797px;
+	height:554px;
+	overflow:auto;
+}
+.editfile_main {
+	padding : 10px;
+	border-left : 1px solid #C0C0C0;
+	border-right : 1px solid #C0C0C0;
+	border-bottom : 1px solid #C0C0C0;
+}
+.heading {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+	text-align:left;
+    color:#FFFFFF;
+	background-color : #000033;
+	font-weight : bold;
+	vertical-align : top;
+	padding :2px;
+	border : 1px solid #C0C0C0;
+}
+
+a.fileinfo, a.fileinfo:visited  {
+	color:#c00; 
+	position:relative; 
+	z-index:1;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	color:#666666;
+}
+a.fileinfo b {
+	position:absolute;
+	visibility:hidden; 
+	display:none;
+	width:100%; 
+	height:100%; 
+	font-weight:normal;	
+	border:1px solid #000; 
+	top:-120px;
+	
+
+}
+a.fileinfo:hover {
+	text-decoration:none; 
+	z-index:1000;
+	width:155px;
+	height:10px;
+	border-bottom:1px solid #000; 
+	display:block;
+	padding-top:1px;
+	padding-bottom:1px;
+	
+
+}
+a.fileinfo:hover b {
+	visibility:visible; 
+	display:block;
+	height:100px;
+	width:170px;
+	top:-50px;
+	left:150px;
+	cursor:pointer; 
+	z-index:500; 
+	background:#FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	color:#666666;
+	
+	
+}
+body a:active , html a:active {
+border:none;
+}

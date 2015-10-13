@@ -1,0 +1,1 @@
+httpdev.mysql.comdocrefman5.0enmysql-5-0-nutshell.html

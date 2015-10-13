@@ -1,0 +1,222 @@
+/* CSS Document */
+
+
+/* standaard Lettertypen */
+
+body,
+th, td,
+div, span,
+p, h1, h2, h3, h4, h5, h6,
+a:link, a:active, a:visited,
+input, button, select, textarea, legend, fieldset, label, form,
+main, admin, footer, activiteit, menu input, menu option {
+    font-family: Arial, Helvetica, Verdana, Geneva, sans-serif;
+    text-decoration: none;
+}
+
+
+/* */
+body, body a{
+	margin-top:20px;
+	background-color: #f6f3e2;
+	font-size:10px;
+}
+
+#margin{
+	margin: 0px 50px 5px 5px;
+}
+#info{
+	margin: 0px 50px 5px 5px;
+	color:#515100;
+}
+/* standaard tekst format >>> */
+#main{
+	color:#515100;
+	font-size:13px;
+}
+#main a, main a:visited, main a:active, main a:link{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: underline;
+}
+	
+#main input, textarea{
+	color:#515100;	
+	font-size:11px;
+}
+#main hr{
+	width:60px;
+	background-color:#7FBE29;
+	border: 0;
+}
+/* <<< standaard format */
+
+/* Footer format >>> */
+#footer {
+	margin-bottom:5px;
+	margin-right:30px;
+	text-align:right;
+	font-size:10px;
+	color:#515100;
+}
+/* <<< Footer format */
+/* sub format >>> */
+p.subsection{
+	margin-top:30px;
+	margin-right:80px;
+	margin-left:80px;
+	color:#7FBE29;
+	font-weight:bold;
+	border-style: dotted;
+}
+/* <<< sub format */
+/* Header format >>> */
+#head {
+	color: #7FBE29;
+	font-weight:bold;
+	font-size: 20px;
+}
+#head2 {
+	color: #515100;
+	font-weight:bold;
+	font-size: 15px;
+}
+/* <<< Header format */
+/* Voor Menu format >>> */
+#menu {
+	margin-left:20px;
+	color:#325714;		
+	font-size:13px;
+}
+#menu a, #menu a:active, #menu a:link, #menu a:visited, option{
+	color:#325714;
+	text-decoration: none;	
+	font-size:15px;	
+}
+#menu a:hover{
+		text-decoration: underline;		
+}
+/* <<< Voor Menu format */
+#search_input{
+	margin-right: 0px;
+	margin-left:75%;
+}
+/* activiteiten tabel format >>> */
+#tabel TABLE{
+	border:0px  #515100;
+	empty-cells: show;
+	}
+
+#tabel TD, TH{
+	padding: 3px;
+	color:#515100;
+	font-size:13px;
+	text-align: left;
+	border: 1px dotted #515100;
+}
+#tabel TH {   
+	font-weight:bold;
+	border: 1px solid #515100;
+	}
+	
+#tabel a, tabel a:visited, tabel a:hover, tabel a:link{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: none;
+	}
+#tabel a:visited{   
+	color:#516200;
+	}
+/* <<< activiteiten tabel format*/
+/* wysiwyg tabel format >>> */
+#wysiwyg TABLE{
+	border:0px  #515100;
+	empty-cells: show;
+	background-color:#FFFFFF
+	}
+
+#wysiwyg TD, TH{
+	padding: 3px;
+	color:#515100;
+	font-size:13px;
+	text-align: left;
+	border: 0px dotted #515100;
+}
+#wysiwyg TH {   
+	font-weight:bold;
+	border: 0px solid #515100;
+	}
+	
+#wysiwyg a, tabel a:visited, tabel a:hover, tabel a:link{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: none;
+	}
+#wysiwyg a:visited{   
+	color:#516200;
+	}
+/* <<< wysiwyg tabel format*/
+/* Messages >>> */
+#fout, #goed{
+	margin-top:3px;
+	color:yellow;
+	background-color:red;
+	font-weight:bold;
+	border-style: solid;
+	border: 2px;
+}
+#goed{
+	color:white;
+	background-color:green;
+}	
+/* <<< messages */
+/* >>> Admin section */
+#admin{
+	margin-top:10px;
+	margin-left:20px;
+	color:#515100;
+	font-size:13px;
+}
+#admin input{
+	color:#515100;
+	text-decoration: none;		
+	font-size:11px;
+}
+#admin H1{
+	color: #7FBE29;
+	font-weight:bold;
+	font-size: 20px;
+}
+/* <<< admin section */
+#aanmelden TD{
+	padding: 5px;
+	color:#515100;
+	font-size:13px;
+	text-align: left;
+	border: 2px dotted #515100;
+}
+#tab TABLE{
+	border:0px  #515100;
+	}
+
+#tab TD, TH{
+	padding: 1px 3px;
+	color:#515100;
+	font-size:13px;
+	text-align: left;
+	border: 1px dotted #515100;
+}
+#tab TH {   
+	font-weight:bold;
+	border: 1px solid #515100;
+	}
+	
+#tab a, tabel a:visited, tabel a:hover{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: none;
+	}
+#tab a:hover{   
+	text-decoration: underline;	
+	}
+/* <<< activiteiten tabel format*/

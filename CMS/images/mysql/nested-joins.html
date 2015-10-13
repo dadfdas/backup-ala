@@ -1,0 +1,815 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>MySQL AB :: MySQL 5.0 Reference Manual :: 7.2.9 Nested Join Optimization</title>
+
+
+
+	 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" media="screen" href="nested-joins_bestanden/screen-new.css">
+		<link rel="stylesheet" type="text/css" media="projection" href="nested-joins_bestanden/screen-new.css">
+	<link rel="stylesheet" type="text/css" media="print" href="nested-joins_bestanden/print.css">
+	 
+	<link rel="stylesheet" type="text/css" href="nested-joins_bestanden/docs.css">
+	    <link rel="contents" href="http://dev.mysql.com/doc/refman/5.0/en/index.html" title="MySQL Manual"><link rel="start" href="http://dev.mysql.com/doc/refman/5.0/en/index.html" title="MySQL Manual"><link rel="stylesheet" type="text/css" href="nested-joins_bestanden/docs.css"><link rel="prev" href="http://dev.mysql.com/doc/refman/5.0/en/left-join-optimization.html" title="7.2.8 LEFT JOIN and RIGHT JOIN
+        Optimization"><link rel="next" href="http://dev.mysql.com/doc/refman/5.0/en/outer-join-simplification.html?ff=nopfpls" title="7.2.10 Outer Join Simplification"><link rel="up" href="http://dev.mysql.com/doc/refman/5.0/en/query-speed.html" title="7.2 Optimizing SELECT and Other Statements"> 
+	<link rel="shortcut icon" href="http://dev.mysql.com/common/favicon.ico"></head><body class="dev">
+<!--UdmComment-->
+ 
+<div id="container">
+	 
+<div id="header">
+
+	<div id="logo">
+		<a href="http://www.mysql.com/"><img src="nested-joins_bestanden/mysql_100x52-64.gif" alt="MySQL" height="52" width="100"></a>
+	</div>
+	<div id="tag">
+		<p>
+			DEVELOPER ZONE ::
+		</p>
+	</div>
+		
+	<div id="search">
+	 <form action="http://www.mysql.com/search/" method="get">
+		<input class="frm" name="q" size="30" maxlength="255" type="text">
+		<input name="charset" value="utf-8" type="hidden">
+	
+			 			 		<input class="submit2" value="Search" type="submit">
+	 </form>
+	</div>
+
+  <div class="toplogin">
+					 <p class="s"><a href="http://www.mysql.com/login.php?dest=">Login</a> / <a href="http://www.mysql.com/register.php">Register</a></p>
+		  </div>
+	
+
+	<div id="worldwide">
+			<br> 	</div> 
+</div> 
+<span style="clear: both; display: block;"></span>
+
+<div id="menu">
+	<img src="nested-joins_bestanden/nav-bg5-left.gif" alt="" align="left" border="0" height="28" width="5">
+	<ul>
+	<li class="link"><a href="http://www.mysql.com/">Home</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/products/">Products</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/services/">Services</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://solutions.mysql.com/">Partners &amp; Solutions</a>
+	
+		
+		
+	</li>
+	
+	<li class="current"><a class="current" href="http://dev.mysql.com/">Community</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/customers/">Customers</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/news-and-events/">News &amp; Events</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/company/">About</a>
+	
+		
+		
+	</li>
+	
+	<li class="link"><a href="http://www.mysql.com/why-mysql/">Why MySQL?</a>
+	
+		
+		
+	</li>
+	
+	<li class="link last"><a href="http://www.mysql.com/buy-mysql/">How to Buy</a>
+	
+		
+		
+	</li>
+	
+</ul> 	
+		
+		<img src="nested-joins_bestanden/nav-bg5-right.gif" alt="" align="right" border="0" height="28" width="5">	
+</div> <!--/UdmComment-->
+
+<div style="clear: both;"></div>
+
+
+	<div class="page_sidebar">
+	<!--UdmComment-->
+	<div id="submenu">	
+		<ul>
+			<li class="current"><a class="current subitems" href="http://dev.mysql.com/doc/index.html">Documentation</a>
+			
+			<ul class="subitems1">
+				 <li><a href="http://dev.mysql.com/doc/refman/5.0/en/index.html"> MySQL 5.0 Reference Manual</a>
+				 
+
+				 <ul class="subitems2">
+				 				 
+				 	
+				 	
+				 	
+				 					 		<li>
+					 	<a href="http://dev.mysql.com/doc/refman/5.1/en/nested-joins.html">5.1</a>  										
+				 	</li>
+				 
+				 				 
+				 	
+				 	
+				 	
+				 					 		<li class="current">5.0
+				 						
+				 	</li>
+				 
+				 				 
+				 	
+				 	
+				 	
+				 					 		<li>
+					 	<a href="">3.23, 4.0, 4.1</a>  										
+				 	</li>
+				 
+				 				 
+				 </ul>
+				 
+				 
+				 
+				 </li>
+
+
+			</ul>
+			
+			
+			</li>
+		</ul>
+
+	 <div class="searchmanual">	
+	<form action="/doc/mysql/search.php" method="get" id="docsearch">
+		<strong>Search manual:</strong> <br>
+													
+							 <input name="version" value="5.0" type="hidden">
+			 <input id="searchq" name="q" value="" size="14" type="text">
+			 <input id="searchsubmit" value="Go" type="submit">
+			 <input name="from" value="/doc/refman/5.0/en/nested-joins.html" type="hidden">
+			 <input name="lang" value="en" type="hidden">
+			</form>
+	
+	</div>
+	
+	
+	</div>
+	
+ <br>
+			<div id="langs">
+			 <b>Additional languages</b>
+			 <ul>
+					
+				</ul>			 
+			</div>		 
+  <div class="gray2"><hr></div>
+
+	
+	<div style="margin-top: 15px; text-align: center;">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-3255031602947757";
+		google_ad_width = 160;
+		google_ad_height = 600;
+		google_ad_format = "160x600_as";
+		google_ad_type = "text";
+		google_ad_channel = "";
+		google_color_border = "eeeeee";
+		google_color_bg = "eeeeee";
+		google_color_link = "00648c";
+		google_color_url = "00648c";
+		google_color_text = "000000";
+		//--></script>
+		<script type="text/javascript" src="nested-joins_bestanden/show_ads.js">
+		</script><iframe name="google_ads_frame" src="nested-joins_bestanden/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="600" scrolling="no" width="160"></iframe>
+	</div>			
+		
+	
+
+  <div class="gray2"><hr></div>
+			
+  <!--/UdmComment-->
+	
+</div>  
+<!-- Main content -->
+<div id="page" class="sidebar">
+
+	 
+	
+	
+
+
+
+
+
+	
+<div id="docheader"><a href="http://dev.mysql.com/doc/refman/5.0/en/index.html"> MySQL 5.0 Reference Manual</a> :: <a href="http://dev.mysql.com/doc/refman/5.0/en/optimization.html">7 Optimization</a> :: <a href="http://dev.mysql.com/doc/refman/5.0/en/query-speed.html">7.2 Optimizing SELECT and Other Statements</a> :: 7.2.9 Nested Join Optimization</div>
+
+	 
+	
+
+	
+<script language="javascript">
+
+<!--
+function toggle(what){
+ if(document.getElementById(what).style.display == "none"){
+   document.getElementById(what).style.display = "block";
+ }else{
+   document.getElementById(what).style.display = "none";
+ }
+}
+//-->
+
+</script>
+
+
+<div style="margin: 0px 0px 8px 8px; background: white none repeat scroll 0%; float: right; width: 250px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+	<div style="text-align: right; font-size: 90%; margin-bottom: 4px;">
+		<div style="text-align: left;"><a style="text-decoration: none;" href="http://dev.mysql.com/doc/refman/5.0/en/left-join-optimization.html" title="Previous Section">« 7.2.8 LEFT JOIN and RIGHT JOIN
+        Optimization</a></div>
+		<hr style="margin: 0px auto 2px;" align="center" noshade="noshade" size="1" width="40">		<a style="text-decoration: none;" href="http://dev.mysql.com/doc/refman/5.0/en/outer-join-simplification.html" title="Next Section">7.2.10 Outer Join Simplification  »</a>	</div>
+	<div style="border-style: dotted none dotted dotted; border-color: rgb(204, 204, 204) -moz-use-text-color rgb(204, 204, 204) rgb(204, 204, 204); border-width: 2px medium 2px 2px; padding: 4px 0px 0px 4px;">
+		<b>Section Navigation</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>[<a href="#" onclick="toggle('sectionnav');">Toggle</a>]</small>
+			<ul id="sectionnav">
+				<li class="p"><a href="http://dev.mysql.com/doc/refman/5.0/en/query-speed.html">7.2 Optimizing SELECT and Other Statements</a></li><li><a href="http://dev.mysql.com/doc/refman/5.0/en/explain.html">7.2.1 Optimizing Queries with EXPLAIN</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/estimating-performance.html">7.2.2 Estimating Query Performance</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/select-speed.html">7.2.3 Speed of SELECT Queries</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/where-optimizations.html">7.2.4 WHERE Clause Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/range-optimization.html">7.2.5 Range Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/index-merge-optimization.html">7.2.6 Index Merge Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/is-null-optimization.html">7.2.7 IS NULL Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/left-join-optimization.html">7.2.8 LEFT JOIN and RIGHT JOIN
+        Optimization</a></li>
+<li class="self">7.2.9 Nested Join Optimization</li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/outer-join-simplification.html">7.2.10 Outer Join Simplification</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/order-by-optimization.html">7.2.11 ORDER BY Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/group-by-optimization.html">7.2.12 GROUP BY Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/distinct-optimization.html">7.2.13 DISTINCT Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/in-subquery-optimization.html">7.2.14 Optimizing IN/=ANY Subqueries</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/limit-optimization.html">7.2.15 LIMIT Optimization</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/how-to-avoid-table-scan.html">7.2.16 How to Avoid Table Scans</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/insert-speed.html">7.2.17 Speed of INSERT Statements</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/update-speed.html">7.2.18 Speed of UPDATE Statements</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/delete-speed.html">7.2.19 Speed of DELETE Statements</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.0/en/miscellaneous-optimization-tips.html">7.2.20 Other Optimization Tips</a></li>
+</ul>
+
+					
+	</div>
+
+</div>
+
+
+
+
+
+	<div class="section" lang="en">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="nested-joins"></a>7.2.9.&nbsp;Nested Join Optimization</h3></div></div></div>
+<p>
+        As of MySQL 5.0.1, the syntax for expressing joins allows nested
+        joins. The following discussion refers to the join syntax
+        described in <a href="http://dev.mysql.com/doc/refman/5.0/en/join.html" title="13.2.7.1.&nbsp;JOIN Syntax">Section&nbsp;13.2.7.1, “<code class="literal">JOIN</code> Syntax”</a>.
+      </p>
+<p>
+        The syntax of <em class="replaceable"><code>table_factor</code></em> is
+        extended in comparison with the SQL Standard. The latter accepts
+        only <em class="replaceable"><code>table_reference</code></em>, not a list of
+        them inside a pair of parentheses. This is a conservative
+        extension if we consider each comma in a list of
+        <em class="replaceable"><code>table_reference</code></em> items as equivalent
+        to an inner join. For example:
+      </p>
+<pre class="programlisting">SELECT * FROM t1 LEFT JOIN (t2, t3, t4)
+                 ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
+</pre>
+<p>
+        is equivalent to:
+      </p>
+<pre class="programlisting">SELECT * FROM t1 LEFT JOIN (t2 CROSS JOIN t3 CROSS JOIN t4)
+                 ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
+</pre>
+<p>
+        In MySQL, <code class="literal">CROSS JOIN</code> is a syntactic
+        equivalent to <code class="literal">INNER JOIN</code> (they can replace
+        each other). In standard SQL, they are not equivalent.
+        <code class="literal">INNER JOIN</code> is used with an
+        <code class="literal">ON</code> clause; <code class="literal">CROSS JOIN</code> is
+        used otherwise.
+      </p>
+<p>
+        In versions of MySQL prior to 5.0.1, parentheses in
+        <em class="replaceable"><code>table_references</code></em> were just omitted
+        and all join operations were grouped to the left. In general,
+        parentheses can be ignored in join expressions containing only
+        inner join operations.
+      </p>
+<p>
+        After removing parentheses and grouping operations to the left,
+        the join expression:
+      </p>
+<pre class="programlisting">t1 LEFT JOIN (t2 LEFT JOIN t3 ON t2.b=t3.b OR t2.b IS NULL)
+   ON t1.a=t2.a
+</pre>
+<p>
+        transforms into the expression:
+      </p>
+<pre class="programlisting">(t1 LEFT JOIN t2 ON t1.a=t2.a) LEFT JOIN t3
+    ON t2.b=t3.b OR t2.b IS NULL
+</pre>
+<p>
+        Yet, the two expressions are not equivalent. To see this,
+        suppose that the tables <code class="literal">t1</code>,
+        <code class="literal">t2</code>, and <code class="literal">t3</code> have the
+        following state:
+      </p>
+<div class="itemizedlist"><ul>
+<li><p>
+            Table <code class="literal">t1</code> contains rows
+            <code class="literal">(1)</code>, <code class="literal">(2)</code>
+          </p></li>
+<li><p>
+            Table <code class="literal">t2</code> contains row
+            <code class="literal">(1,101)</code>
+          </p></li>
+<li><p>
+            Table <code class="literal">t3</code> contains row
+            <code class="literal">(101)</code>
+          </p></li>
+</ul></div>
+<p>
+        In this case, the first expression returns a result set
+        including the rows <code class="literal">(1,1,101,101)</code>,
+        <code class="literal">(2,NULL,NULL,NULL)</code>, whereas the second
+        expression returns the rows <code class="literal">(1,1,101,101)</code>,
+        <code class="literal">(2,NULL,NULL,101)</code>:
+      </p>
+<pre class="programlisting">mysql&gt; <strong class="userinput"><code>SELECT *</code></strong>
+    -&gt; <strong class="userinput"><code>FROM t1</code></strong>
+    -&gt;      <strong class="userinput"><code>LEFT JOIN</code></strong>
+    -&gt;      <strong class="userinput"><code>(t2 LEFT JOIN t3 ON t2.b=t3.b OR t2.b IS NULL)</code></strong>
+    -&gt;      <strong class="userinput"><code>ON t1.a=t2.a;</code></strong>
++------+------+------+------+
+| a    | a    | b    | b    |
++------+------+------+------+
+|    1 |    1 |  101 |  101 |
+|    2 | NULL | NULL | NULL |
++------+------+------+------+
+
+mysql&gt; <strong class="userinput"><code>SELECT *</code></strong>
+    -&gt; <strong class="userinput"><code>FROM (t1 LEFT JOIN t2 ON t1.a=t2.a)</code></strong>
+    -&gt;      <strong class="userinput"><code>LEFT JOIN t3</code></strong>
+    -&gt;      <strong class="userinput"><code>ON t2.b=t3.b OR t2.b IS NULL;</code></strong>
++------+------+------+------+
+| a    | a    | b    | b    |
++------+------+------+------+
+|    1 |    1 |  101 |  101 |
+|    2 | NULL | NULL |  101 |
++------+------+------+------+
+</pre>
+<p>
+        In the following example, an outer join operation is used
+        together with an inner join operation:
+      </p>
+<pre class="programlisting">t1 LEFT JOIN (t2, t3) ON t1.a=t2.a
+</pre>
+<p>
+        That expression cannot be transformed into the following
+        expression:
+      </p>
+<pre class="programlisting">t1 LEFT JOIN t2 ON t1.a=t2.a, t3.
+</pre>
+<p>
+        For the given table states, the two expressions return different
+        sets of rows:
+      </p>
+<pre class="programlisting">mysql&gt; <strong class="userinput"><code>SELECT *</code></strong>
+    -&gt; <strong class="userinput"><code>FROM t1 LEFT JOIN (t2, t3) ON t1.a=t2.a;</code></strong>
++------+------+------+------+
+| a    | a    | b    | b    |
++------+------+------+------+
+|    1 |    1 |  101 |  101 |
+|    2 | NULL | NULL | NULL |
++------+------+------+------+
+
+mysql&gt; <strong class="userinput"><code>SELECT *</code></strong>
+    -&gt; <strong class="userinput"><code>FROM t1 LEFT JOIN t2 ON t1.a=t2.a, t3;</code></strong>
++------+------+------+------+
+| a    | a    | b    | b    |
++------+------+------+------+
+|    1 |    1 |  101 |  101 |
+|    2 | NULL | NULL |  101 |
++------+------+------+------+
+</pre>
+<p>
+        Therefore, if we omit parentheses in a join expression with
+        outer join operators, we might change the result set for the
+        original expression.
+      </p>
+<p>
+        More exactly, we cannot ignore parentheses in the right operand
+        of the left outer join operation and in the left operand of a
+        right join operation. In other words, we cannot ignore
+        parentheses for the inner table expressions of outer join
+        operations. Parentheses for the other operand (operand for the
+        outer table) can be ignored.
+      </p>
+<p>
+        The following expression:
+      </p>
+<pre class="programlisting">(t1,t2) LEFT JOIN t3 ON P(t2.b,t3.b)
+</pre>
+<p>
+        is equivalent to this expression:
+      </p>
+<pre class="programlisting">t1, t2 LEFT JOIN t3 ON P(t2.b,t3.b)
+</pre>
+<p>
+        for any tables <code class="literal">t1,t2,t3</code> and any condition
+        <code class="literal">P</code> over attributes <code class="literal">t2.b</code> and
+        <code class="literal">t3.b</code>.
+      </p>
+<p>
+        Whenever the order of execution of the join operations in a join
+        expression (<em class="replaceable"><code>join_table</code></em>) is not from
+        left to right, we talk about nested joins. Consider the
+        following queries:
+      </p>
+<pre class="programlisting">SELECT * FROM t1 LEFT JOIN (t2 LEFT JOIN t3 ON t2.b=t3.b) ON t1.a=t2.a
+  WHERE t1.a &gt; 1
+
+SELECT * FROM t1 LEFT JOIN (t2, t3) ON t1.a=t2.a
+  WHERE (t2.b=t3.b OR t2.b IS NULL) AND t1.a &gt; 1
+</pre>
+<p>
+        Those queries are considered to contain these nested joins:
+      </p>
+<pre class="programlisting">t2 LEFT JOIN t3 ON t2.b=t3.b
+t2, t3
+</pre>
+<p>
+        The nested join is formed in the first query with a left join
+        operation, whereas in the second query it is formed with an
+        inner join operation.
+      </p>
+<p>
+        In the first query, the parentheses can be omitted: The
+        grammatical structure of the join expression will dictate the
+        same order of execution for join operations. For the second
+        query, the parentheses cannot be omitted, although the join
+        expression here can be interpreted unambiguously without them.
+        (In our extended syntax the parentheses in <code class="literal">(t2,
+        t3)</code> of the second query are required, although
+        theoretically the query could be parsed without them: We still
+        would have unambiguous syntactical structure for the query
+        because <code class="literal">LEFT JOIN</code> and <code class="literal">ON</code>
+        would play the role of the left and right delimiters for the
+        expression <code class="literal">(t2,t3)</code>.)
+      </p>
+<p>
+        The preceding examples demonstrate these points:
+      </p>
+<div class="itemizedlist"><ul>
+<li><p>
+            For join expressions involving only inner joins (and not
+            outer joins), parentheses can be removed. You can remove
+            parentheses and evaluate left to right (or, in fact, you can
+            evaluate the tables in any order).
+          </p></li>
+<li><p>
+            The same is not true, in general, for outer joins or for
+            outer joins mixed with inner joins. Removal of parentheses
+            may change the result.
+          </p></li>
+</ul></div>
+<p>
+        Queries with nested outer joins are executed in the same
+        pipeline manner as queries with inner joins. More exactly, a
+        variation of the nested-loop join algorithm is exploited. Recall
+        by what algorithmic schema the nested-loop join executes a
+        query. Suppose that we have a join query over 3 tables
+        <code class="literal">T1,T2,T3</code> of the form:
+      </p>
+<pre class="programlisting">SELECT * FROM T1 INNER JOIN T2 ON P1(T1,T2)
+                 INNER JOIN T3 ON P2(T2,T3)
+  WHERE P(T1,T2,T3).
+</pre>
+<p>
+        Here, <code class="literal">P1(T1,T2)</code> and
+        <code class="literal">P2(T3,T3)</code> are some join conditions (on
+        expressions), whereas <code class="literal">P(t1,t2,t3)</code> is a
+        condition over columns of tables <code class="literal">T1,T2,T3</code>.
+      </p>
+<p>
+        The nested-loop join algorithm would execute this query in the
+        following manner:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 {
+  FOR each row t2 in T2 such that P1(t1,t2) {
+    FOR each row t3 in T3 such that P2(t2,t3) {
+      IF P(t1,t2,t3) {
+         t:=t1||t2||t3; OUTPUT t;
+      }
+    }
+  }
+}
+</pre>
+<p>
+        The notation <code class="literal">t1||t2||t3</code> means “<span class="quote">a row
+        constructed by concatenating the columns of rows
+        <code class="literal">t1</code>, <code class="literal">t2</code>, and
+        <code class="literal">t3</code>.</span>” In some of the following
+        examples, <code class="literal">NULL</code> where a row name appears means
+        that <code class="literal">NULL</code> is used for each column of that
+        row. For example, <code class="literal">t1||t2||NULL</code> means “<span class="quote">a
+        row constructed by concatenating the columns of rows
+        <code class="literal">t1</code> and <code class="literal">t2</code>, and
+        <code class="literal">NULL</code> for each column of
+        <code class="literal">t3</code>.</span>”
+      </p>
+<p>
+        Now let's consider a query with nested outer joins:
+      </p>
+<pre class="programlisting">SELECT * FROM T1 LEFT JOIN
+              (T2 LEFT JOIN T3 ON P2(T2,T3))
+              ON P1(T1,T2)
+  WHERE P(T1,T2,T3).
+</pre>
+<p>
+        For this query, we modify the nested-loop pattern to get:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 {
+  BOOL f1:=FALSE;
+  FOR each row t2 in T2 such that P1(t1,t2) {
+    BOOL f2:=FALSE;
+    FOR each row t3 in T3 such that P2(t2,t3) {
+      IF P(t1,t2,t3) {
+        t:=t1||t2||t3; OUTPUT t;
+      }
+      f2=TRUE;
+      f1=TRUE;
+    }
+    IF (!f2) {
+      IF P(t1,t2,NULL) {
+        t:=t1||t2||NULL; OUTPUT t;
+      }
+      f1=TRUE;
+    }
+  }
+  IF (!f1) {
+    IF P(t1,NULL,NULL) {
+      t:=t1||NULL||NULL; OUTPUT t;
+    }
+  }
+}
+</pre>
+<p>
+        In general, for any nested loop for the first inner table in an
+        outer join operation, a flag is introduced that is turned off
+        before the loop and is checked after the loop. The flag is
+        turned on when for the current row from the outer table a match
+        from the table representing the inner operand is found. If at
+        the end of the loop cycle the flag is still off, no match has
+        been found for the current row of the outer table. In this case,
+        the row is complemented by <code class="literal">NULL</code> values for
+        the columns of the inner tables. The result row is passed to the
+        final check for the output or into the next nested loop, but
+        only if the row satisfies the join condition of all embedded
+        outer joins.
+      </p>
+<p>
+        In our example, the outer join table expressed by the following
+        expression is embedded:
+      </p>
+<pre class="programlisting">(T2 LEFT JOIN T3 ON P2(T2,T3))
+</pre>
+<p>
+        Note that for the query with inner joins, the optimizer could
+        choose a different order of nested loops, such as this one:
+      </p>
+<pre class="programlisting">FOR each row t3 in T3 {
+  FOR each row t2 in T2 such that P2(t2,t3) {
+    FOR each row t1 in T1 such that P1(t1,t2) {
+      IF P(t1,t2,t3) {
+         t:=t1||t2||t3; OUTPUT t;
+      }
+    }
+  }
+}
+</pre>
+<p>
+        For the queries with outer joins, the optimizer can choose only
+        such an order where loops for outer tables precede loops for
+        inner tables. Thus, for our query with outer joins, only one
+        nesting order is possible. For the following query, the
+        optimizer will evaluate two different nestings:
+      </p>
+<pre class="programlisting">SELECT * T1 LEFT JOIN (T2,T3) ON P1(T1,T2) AND P2(T1,T3)
+  WHERE P(T1,T2,T3)
+</pre>
+<p>
+        The nestings are these:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 {
+  BOOL f1:=FALSE;
+  FOR each row t2 in T2 such that P1(t1,t2) {
+    FOR each row t3 in T3 such that P2(t1,t3) {
+      IF P(t1,t2,t3) {
+        t:=t1||t2||t3; OUTPUT t;
+      }
+      f1:=TRUE
+    }
+  }
+  IF (!f1) {
+    IF P(t1,NULL,NULL) {
+      t:=t1||NULL||NULL; OUTPUT t;
+    }
+  }
+}
+</pre>
+<p>
+        and:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 {
+  BOOL f1:=FALSE;
+  FOR each row t3 in T3 such that P2(t1,t3) {
+    FOR each row t2 in T2 such that P1(t1,t2) {
+      IF P(t1,t2,t3) {
+        t:=t1||t2||t3; OUTPUT t;
+      }
+      f1:=TRUE
+    }
+  }
+  IF (!f1) {
+    IF P(t1,NULL,NULL) {
+      t:=t1||NULL||NULL; OUTPUT t;
+    }
+  }
+}
+</pre>
+<p>
+        In both nestings, <code class="literal">T1</code> must be processed in the
+        outer loop because it is used in an outer join.
+        <code class="literal">T2</code> and <code class="literal">T3</code> are used in an
+        inner join, so that join must be processed in the inner loop.
+        However, because the join is an inner join,
+        <code class="literal">T2</code> and <code class="literal">T3</code> can be processed
+        in either order.
+      </p>
+<p>
+        When discussing the nested-loop algorithm for inner joins, we
+        omitted some details whose impact on the performance of query
+        execution may be huge. We did not mention so-called
+        “<span class="quote">pushed-down</span>” conditions. Suppose that our
+        <code class="literal">WHERE</code> condition
+        <code class="literal">P(T1,T2,T3)</code> can be represented by a
+        conjunctive formula:
+      </p>
+<pre class="programlisting">P(T1,T2,T2) = C1(T1) AND C2(T2) AND C3(T3).
+</pre>
+<p>
+        In this case, MySQL actually uses the following nested-loop
+        schema for the execution of the query with inner joins:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 such that C1(t1) {
+  FOR each row t2 in T2 such that P1(t1,t2) AND C2(t2)  {
+    FOR each row t3 in T3 such that P2(t2,t3) AND C3(t3) {
+      IF P(t1,t2,t3) {
+         t:=t1||t2||t3; OUTPUT t;
+      }
+    }
+  }
+}
+</pre>
+<p>
+        You see that each of the conjuncts <code class="literal">C1(T1)</code>,
+        <code class="literal">C2(T2)</code>, <code class="literal">C3(T3)</code> are pushed
+        out of the most inner loop to the most outer loop where it can
+        be evaluated. If <code class="literal">C1(T1)</code> is a very restrictive
+        condition, this condition pushdown may greatly reduce the number
+        of rows from table <code class="literal">T1</code> passed to the inner
+        loops. As a result, the execution time for the query may improve
+        immensely.
+      </p>
+<p>
+        For a query with outer joins, the <code class="literal">WHERE</code>
+        condition is to be checked only after it has been found that the
+        current row from the outer table has a match in the inner
+        tables. Thus, the optimization of pushing conditions out of the
+        inner nested loops cannot be applied directly to queries with
+        outer joins. Here we have to introduce conditional pushed-down
+        predicates guarded by the flags that are turned on when a match
+        has been encountered.
+      </p>
+<p>
+        For our example with outer joins with:
+      </p>
+<pre class="programlisting">P(T1,T2,T3)=C1(T1) AND C(T2) AND C3(T3)
+</pre>
+<p>
+        the nested-loop schema using guarded pushed-down conditions
+        looks like this:
+      </p>
+<pre class="programlisting">FOR each row t1 in T1 such that C1(t1) {
+  BOOL f1:=FALSE;
+  FOR each row t2 in T2
+      such that P1(t1,t2) AND (f1?C2(t2):TRUE) {
+    BOOL f2:=FALSE;
+    FOR each row t3 in T3
+        such that P2(t2,t3) AND (f1&amp;&amp;f2?C3(t3):TRUE) {
+      IF (f1&amp;&amp;f2?TRUE:(C2(t2) AND C3(t3))) {
+        t:=t1||t2||t3; OUTPUT t;
+      }
+      f2=TRUE;
+      f1=TRUE;
+    }
+    IF (!f2) {
+      IF (f1?TRUE:C2(t2) &amp;&amp; P(t1,t2,NULL)) {
+        t:=t1||t2||NULL; OUTPUT t;
+      }
+      f1=TRUE;
+    }
+  }
+  IF (!f1 &amp;&amp; P(t1,NULL,NULL)) {
+      t:=t1||NULL||NULL; OUTPUT t;
+  }
+}
+</pre>
+<p>
+        In general, pushed-down predicates can be extracted from join
+        conditions such as <code class="literal">P1(T1,T2)</code> and
+        <code class="literal">P(T2,T3)</code>. In this case, a pushed-down
+        predicate is guarded also by a flag that prevents checking the
+        predicate for the <code class="literal">NULL</code>-complemented row
+        generated by the corresponding outer join operation.
+      </p>
+<p>
+        Note that access by key from one inner table to another in the
+        same nested join is prohibited if it is induced by a predicate
+        from the <code class="literal">WHERE</code> condition. (We could use
+        conditional key access in this case, but this technique is not
+        employed yet in MySQL 5.0.)
+      </p>
+</div>
+<!--UdmComment--><div id="docnav"><a rel="prev" href="http://dev.mysql.com/doc/refman/5.0/en/left-join-optimization.html" title="7.2.8 LEFT JOIN and RIGHT JOIN
+        Optimization">Previous</a> / <a rel="next" href="http://dev.mysql.com/doc/refman/5.0/en/outer-join-simplification.html" title="7.2.10 Outer Join Simplification">Next</a> / <a rel="up" href="http://dev.mysql.com/doc/refman/5.0/en/query-speed.html" title="7.2 Optimizing SELECT and Other Statements">Up</a> / <a rel="contents" href="http://dev.mysql.com/doc/refman/5.0/en/index.html">Table of Contents</a></div><!--/UdmComment--><br class="clear"><!--UdmComment--><div id="comments"><h2>User Comments</h2><p><a href="http://dev.mysql.com/doc/mysql/comment.php?sect=nested-joins">Add your own comment.</a></p></div><!--UdmComment--><div id="docnav"><a href="#">Top</a> / <a rel="prev" href="http://dev.mysql.com/doc/refman/5.0/en/left-join-optimization.html" title="7.2.8 LEFT JOIN and RIGHT JOIN
+        Optimization">Previous</a> / <a rel="next" href="http://dev.mysql.com/doc/refman/5.0/en/outer-join-simplification.html" title="7.2.10 Outer Join Simplification">Next</a> / <a rel="up" href="http://dev.mysql.com/doc/refman/5.0/en/query-speed.html" title="7.2 Optimizing SELECT and Other Statements">Up</a> / <a rel="contents" href="http://dev.mysql.com/doc/refman/5.0/en/index.html">Table of Contents</a></div><!--/UdmComment--></div></div>
+
+
+
+
+
+
+<!--UdmComment-->
+ <div id="footer">
+  <div id="copyright">© 1995-2007 MySQL AB. All rights reserved.</div>
+
+  <ul>
+		<li><a href="http://shop.mysql.com/">Online Shop</a></li>
+		<li><a href="http://www.mysql.com/sitemap.html">Site Map</a></li>
+		<li><a href="http://www.mysql.com/company/legal/">Legal</a></li>
+ 		<li><a href="http://www.mysql.com/company/contact/">Contact Us</a></li> 
+		<li><a href="http://www.mysql.com/company/jobs/">Careers</a></li> 
+   <li class="last"><a href="http://www.nosoftwarepatents.com/"><img src="nested-joins_bestanden/nswpat80x15.gif" alt="No Software Patents!" height="15" width="80"></a></li>
+  </ul>
+
+	</div> <!--/UdmComment-->
+
+   
+
+		<script src="nested-joins_bestanden/urchin.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	_uacct = "UA-225536-3";
+	_udn="mysql.com";	
+	urchinTracker();
+	</script>	
+
+</body></html>

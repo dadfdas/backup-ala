@@ -1,0 +1,38 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Calculate week number</title>
+<script language="javascript" type="text/javascript">
+	
+Date.prototype.getWeek = function() {
+	var onejan = new Date(this.getFullYear(),0,1);
+	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
+}	
+
+function getWeekNumber(){
+	var d = document.getElementById("day").value;
+	var m = parseInt(document.getElementById("month").value)-1;
+	var y = document.getElementById("year").value;
+	var today = new Date(y,m,d); 
+	var weekno = today.getWeek();
+	document.getElementById("WeekNumber").innerHTML = "(week " + weekno + ")";
+}
+</script>
+
+</head>
+<body>
+<form action="" method="post" name="myform">
+<table width="300" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><div align="left">Day <input name="day" type="text" size="6" maxlength="2"></div></td>
+    <td><div align="left">Month <input name="month" type="text" size="6" maxlength="2"></div></td>
+    <td><div align="right">Year <input name="year" type="text" size="6" maxlength="4"></div></td>
+  </tr>
+  <tr>
+    <td><p><div id="WeekNumber">&nbsp;</div></p></td>
+    <td colspan="2" valign="top"><div align="right"><input name="getmyweeknumber" type="button" value="Week nummer ophalen" onClick="getWeekNumber()"></div></td>
+    </tr>
+</table>
+</form>
+
+</body>
+</html>

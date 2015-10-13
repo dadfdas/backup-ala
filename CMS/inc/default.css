@@ -1,0 +1,178 @@
+/* CSS Document */
+
+
+/* standaard Lettertypen */
+
+body,
+th, td,
+div, span,
+p, h1, h2, h3, h4, h5, h6,
+a:link, a:active, a:visited,
+input, button, select, textarea, legend, fieldset, label, form,
+main, admin, footer, activiteit, menu input, menu option {
+    font-family: Arial, Helvetica, Verdana, Geneva, sans-serif;
+    text-decoration: none;
+}
+
+
+/* */
+body, body a{
+	margin-top:1px;
+	background-color: #f6f3e2;
+	font-size:13px;
+}
+#head {
+	color: #7FBE29;
+	font-weight:bold;
+	font-size: 15px;
+}
+/* Voor Menu format >>> */
+#menu {
+	margin-left:20px;
+	color:#325714;		
+	font-size:13px;
+}
+#menu a, #menu a:active, #menu a:link, #menu a:visited, option{
+		color:#325714;
+		text-decoration: none;	
+		font-size:15px;	
+}
+#menu a:hover{
+		text-decoration: underline;		
+}
+/* <<< Voor Menu format */
+/* activiteiten tabel format >>> */
+#tabel table{
+	border:0px  black;
+	}
+
+#tabel td, th{
+	padding: 1px 3px;
+	color:black;
+	font-size:13px;
+	text-align: left;
+	border: 1px solid black;
+}
+#tabel th {   
+	font-weight:bold;
+	border: 1px solid black;
+}
+	
+#tabel a, tabel a:visited, tabel a:hover{   
+	color:black;
+	font-size:13px;
+	text-decoration: none;
+	}
+#tabel a:hover{   
+	text-decoration: underline;	
+	}
+#tab TABLE{
+	border:0px  black;
+	}
+/*------*/
+#tab TD, TH{
+	padding: 1px 3px;
+	color:black;
+	font-size:13px;
+	text-align: left;
+	border: 1px solid black;
+}
+#tab TH {   
+	font-weight:bold;
+	border: 1px solid black;
+}
+/*#tab tbody {   
+	height:500px;
+	overflow:scroll;
+	padding-right:10px;
+}*/
+
+#tab a, tabel a:visited, tabel a:hover{   
+	color:black;
+	font-size:13px;
+	text-decoration: none;
+	}
+#tab a:hover{   
+	text-decoration: underline;	
+	}
+/* <<< activiteiten tabel format*/
+/* wysiwyg tabel format >>> */
+#wysiwyg TABLE{
+	border:0px  #515100;
+	empty-cells: show;
+	background-color:#FFFFFF
+	}
+
+#wysiwyg TD, TH{
+	padding: 3px;
+	color:#515100;
+	font-size:13px;
+	text-align: left;
+	border: 0px dotted #515100;
+}
+#wysiwyg TH {   
+	font-weight:bold;
+	border: 0px solid #515100;
+	}
+	
+#wysiwyg a, tabel a:visited, tabel a:hover, tabel a:link{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: none;
+	}
+#wysiwyg a:visited{   
+	color:#516200;
+	}
+/* <<< wysiwyg tabel format*/
+	
+#wysiwyg a, tabel a:visited, tabel a:hover, tabel a:link{   
+	color:black;
+	font-size:13px;
+	text-decoration: none;
+	}
+#wysiwyg a:visited{   
+	color:#516200;
+	}
+/* <<< wysiwyg tabel format*/
+/* Messages >>> */
+#fout, #goed{
+	margin-top:3px;
+	color:yellow;
+	background-color:red;
+	font-weight:bold;
+	border-style: solid;
+	border: 2px;
+}
+#goed{
+	color:white;
+	background-color:green;
+}	
+/* <<< messages */
+/* >>> Admin section */
+#admin{
+	margin-top:4px;
+	margin-left:20px;
+	color:black;
+	font-size:13px;
+}
+#admin input{
+	color:black;
+	text-decoration: none;		
+	font-size:11px;
+}
+#admin H1{
+	color: #7FBE29;
+	font-weight:bold;
+	font-size: 20px;
+}
+
+#main{
+	color:#515100;
+	font-size:13px;
+}
+#main a, main a:visited, main a:active, main a:link{   
+	color:#515100;
+	font-size:13px;
+	text-decoration: underline;
+	}
+/* <<< admin section */
